@@ -1,5 +1,24 @@
 import { createClient } from "@/lib/supabase/client";
 
+export const getUser = async () => {
+  try {
+    const supabase = createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const { data } = await supabase.from("users").select().eq("email", user?.email).limit(1).single();
+
+    return {
+      name: data.name,
+      email: data.email,
+      avatar_url: data.avatar_url,
+    };
+  } catch (error: any) {
+    return error;
+  }
+};
+
 export const login = async (payload: { email: string; password: string }) => {
   try {
     const { auth } = createClient();
@@ -13,7 +32,7 @@ export const login = async (payload: { email: string; password: string }) => {
     }
 
     return data;
-  } catch (error: unknown) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -36,7 +55,7 @@ export const register = async (payload: { name: string; email: string; password:
     }
 
     return data;
-  } catch (error: unknown) {
+  } catch (error: any) {
     return error;
   }
 };
@@ -51,7 +70,7 @@ export const logout = async () => {
     }
 
     return true;
-  } catch (error: unknown) {
+  } catch (error: any) {
     return error;
   }
 };

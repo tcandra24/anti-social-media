@@ -1,12 +1,11 @@
 "use client";
 
-import * as React from "react";
 import { AudioWaveform, Command, Home } from "lucide-react";
 
 import { NavFavorites } from "@/components/nav-favorites";
 import { NavMain } from "@/components/nav-main";
 import { TeamSwitcher } from "@/components/team-switcher";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from "@/components/ui/sidebar";
 import { NavUser } from "@/components/nav-user";
 
 // This is sample data.
@@ -106,7 +105,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavFavorites favorites={data.favorites} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );
