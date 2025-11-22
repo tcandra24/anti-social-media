@@ -5,6 +5,9 @@ import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from "
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
+import { logout } from "@/actions/user.action";
+import { redirect } from "next/navigation";
+import { toast } from "sonner";
 
 export function NavUser({
   user,
@@ -16,6 +19,22 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+
+  const handleLogout = async () => {
+    const response = await logout();
+
+    if (!response) {
+      toast.error("Logout Error", {
+        description: "Please contact Administrator",
+      });
+
+      return;
+    }
+
+    toast.success("Logout Success");
+
+    redirect("/auth/login");
+  };
 
   return (
     <SidebarMenu>
@@ -70,7 +89,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>
